@@ -1,0 +1,9 @@
+---
+title: "Probability"
+author: "Antigravity"
+format: html
+---
+
+## Introduction
+
+This is a probability analysis.
