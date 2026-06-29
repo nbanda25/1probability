@@ -22,15 +22,15 @@ throw_dice <- function(n, weights = rep(1/6, 6)) {
 
 ```{r}
 set.seed(10)
-tibble(n = c(10, 20, 50, 100, 1000)) |>
-  mutate(sum = map(n, ~ throw_dice(.x))) |>
-  unnest(cols = c(sum)) |>
-  mutate(n = factor(n, levels = c(10, 20, 50, 100, 1000))) |>
+tibble(
+  trial = rep(1:10, each = 20),
+  sum = throw_dice(200, weights = c(0.15, 0.15, 0.15, 0.15, 0.15, 0.25))
+) |>
   ggplot(aes(x = sum)) +
   geom_bar(fill = "grey50") +
   scale_x_continuous(breaks = 2:12) +
-  facet_wrap(~ n, scales = "free_y", nrow = 1) +
-  labs(title = "Simulation of two fair dice rolls as sample size grows",
+  facet_wrap(~ trial, nrow = 2) +
+  labs(title = "Ten trials of twenty throws of two loaded dice",
        x = "Sum of two dice", y = "Count") +
   theme_minimal()
 ```
