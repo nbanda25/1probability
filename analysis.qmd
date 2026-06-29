@@ -2,7 +2,14 @@
 title: "Probability"
 author: "Antigravity"
 format: html
+execute:
+  echo: false
 ---
+
+```{r}
+#| message: false
+library(tidyverse)
+```
 
 ## Introduction
 
