@@ -36,16 +36,14 @@ tibble(n = c(10, 20, 50, 100, 1000)) |>
 ```
 
 ```{r}
-tibble(
-  die = rep(c("Fair", "Loaded"), each = 6),
-  face = rep(1:6, times = 2),
-  probability = c(rep(1/6, 6), rep(0.14, 5), 0.30)
-) |>
-  ggplot(aes(x = factor(face), y = probability)) +
-  geom_col(fill = "grey50") +
-  facet_wrap(~ die) +
-  labs(title = "Theoretical probability distributions (PDFs) of a single die",
-       x = "Face", y = "Probability") +
+set.seed(10)
+rolls_20 <- sample(1:6, size = 20, replace = TRUE, prob = c(0.14, 0.14, 0.14, 0.14, 0.14, 0.30))
+tibble(face = rolls_20) |>
+  ggplot(aes(x = factor(face))) +
+  geom_bar(fill = "grey50") +
+  scale_x_discrete(drop = FALSE, limits = factor(1:6)) +
+  labs(title = "Twenty rolls of the loaded die",
+       x = "Face", y = "Count") +
   theme_minimal()
 ```
 
