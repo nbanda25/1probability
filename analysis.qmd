@@ -45,8 +45,24 @@ log_lr <- og_lr
 
 ```{r}
 set.seed(10)
-rolls_200 <- sample(1:6, size = 200, replace = TRUE, prob = c(0.14, 0.14, 0.14, 0.14, 0.14, 0.30))
-round(1 / (1 + exp(-sum(log_lr(rolls_200)))), 6)
+rolls_200 <- sample(1:6, 200, replace = TRUE,
+                    prob = c(0.14, 0.14, 0.14, 0.14, 0.14, 0.30))
+
+tibble(
+  roll      = 1:200,
+  log_odds  = cumsum(log_lr(rolls_200)),
+  posterior = 1 / (1 + exp(-log_odds))
+) |>
+  ggplot(aes(x = roll, y = posterior)) +
+  geom_line() +
+  geom_hline(yintercept = 0.95, color = "red", linetype = "dashed") +
+  scale_y_continuous(limits = c(0, 1),
+                     labels = scales::label_percent(accuracy = 1)) +
+  labs(title = "Posterior probability that the die is loaded, roll by roll",
+       subtitle = "Starts at 50%; each roll nudges the line up (a 6) or down (anything else)",
+       x = "Roll number",
+       y = "Posterior probability of \"loaded\"") +
+  theme_minimal()
 ```
 
 ## Introduction
