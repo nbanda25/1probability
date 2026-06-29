@@ -44,24 +44,24 @@ log_lr <- og_lr
 ```
 
 ```{r}
-set.seed(10)
-rolls_200 <- sample(1:6, 200, replace = TRUE,
-                    prob = c(0.14, 0.14, 0.14, 0.14, 0.14, 0.30))
+set.seed(42)
+stop_times <- replicate(1000, {
+  rolls    <- sample(1:6, 500, replace = TRUE,
+                     prob = c(0.14, 0.14, 0.14, 0.14, 0.14, 0.30))
+  log_odds <- cumsum(log_lr(rolls))
+  post     <- 1 / (1 + exp(-log_odds))
+  which(post >= 0.95)[1]
+})
 
-tibble(
-  roll      = 1:200,
-  log_odds  = cumsum(log_lr(rolls_200)),
-  posterior = 1 / (1 + exp(-log_odds))
-) |>
-  ggplot(aes(x = roll, y = posterior)) +
-  geom_line() +
-  geom_hline(yintercept = 0.95, color = "red", linetype = "dashed") +
-  scale_y_continuous(limits = c(0, 1),
-                     labels = scales::label_percent(accuracy = 1)) +
-  labs(title = "Posterior probability that the die is loaded, roll by roll",
-       subtitle = "Starts at 50%; each roll nudges the line up (a 6) or down (anything else)",
-       x = "Roll number",
-       y = "Posterior probability of \"loaded\"") +
+tibble(stop_time = stop_times[!is.na(stop_times)]) |>
+  ggplot(aes(x = stop_time)) +
+  geom_histogram(binwidth = 10, fill = "grey50", color = "white") +
+  geom_vline(xintercept = median(stop_times, na.rm = TRUE),
+             color = "red", linetype = "dashed") +
+  labs(title = "Rolls needed to reach 95% posterior on \"loaded\"",
+       subtitle = "1,000 simulated runs; red dashed line is the median",
+       x = "Rolls until posterior >= 0.95",
+       y = "Count") +
   theme_minimal()
 ```
 
