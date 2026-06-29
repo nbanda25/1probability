@@ -36,10 +36,10 @@ tibble(n = c(10, 20, 50, 100, 1000)) |>
 ```
 
 ```{r}
-tibble(
-  face = 1:6,
-  ratio = c(rep(0.14, 5), 0.30) / (1/6)
-)
+tibble(face = 1:6,
+       p_loaded = c(0.14, 0.14, 0.14, 0.14, 0.14, 0.30),
+       p_fair   = 1/6,
+       likelihood_ratio = round(p_loaded / p_fair, 3))
 ```
 
 ## Introduction
