@@ -43,6 +43,12 @@ og_lr <- function(rolls) {
 log_lr <- og_lr
 ```
 
+```{r}
+set.seed(10)
+rolls_200 <- sample(1:6, size = 200, replace = TRUE, prob = c(0.14, 0.14, 0.14, 0.14, 0.14, 0.30))
+round(1 / (1 + exp(-sum(log_lr(rolls_200)))), 6)
+```
+
 ## Introduction
 
 This is a probability analysis.
