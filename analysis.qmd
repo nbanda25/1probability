@@ -22,15 +22,12 @@ throw_dice <- function(n, weights = rep(1/6, 6)) {
 
 ```{r}
 set.seed(10)
-tibble(
-  trial = rep(1:10, each = 20),
-  sum = throw_dice(200)
-) |>
+tibble(sum = throw_dice(20)) |>
   ggplot(aes(x = sum)) +
   geom_bar(fill = "grey50") +
   scale_x_continuous(breaks = 2:12) +
-  facet_wrap(~ trial, nrow = 2) +
-  labs(title = "Ten trials of twenty throws of two fair dice",
+  labs(title = "Twenty throws of two fair dice",
+       subtitle = "The shape is choppy --- 20 rolls is not enough to see the true distribution",
        x = "Sum of two dice", y = "Count") +
   theme_minimal()
 ```
