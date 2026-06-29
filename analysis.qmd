@@ -35,6 +35,20 @@ tibble(n = c(10, 20, 50, 100, 1000)) |>
   theme_minimal()
 ```
 
+```{r}
+tibble(
+  die = rep(c("Fair", "Loaded"), each = 6),
+  face = rep(1:6, times = 2),
+  probability = c(rep(1/6, 6), rep(0.14, 5), 0.30)
+) |>
+  ggplot(aes(x = factor(face), y = probability)) +
+  geom_col(fill = "grey50") +
+  facet_wrap(~ die) +
+  labs(title = "Theoretical probability distributions (PDFs) of a single die",
+       x = "Face", y = "Probability") +
+  theme_minimal()
+```
+
 ## Introduction
 
 This is a probability analysis.
